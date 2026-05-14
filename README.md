@@ -1,195 +1,198 @@
-# Agent Starter for React
+# Helen AI Assistant
 
-This is a starter template for [LiveKit Agents](https://docs.livekit.io/agents) that provides a simple voice interface using [Agents UI](https://livekit.io/ui) components and [LiveKit JavaScript SDK](https://github.com/livekit/client-sdk-js). It supports [voice](https://docs.livekit.io/agents/start/voice-ai), [transcriptions](https://docs.livekit.io/agents/build/text/), and [virtual avatars](https://docs.livekit.io/agents/integrations/avatar).
+## Overview
 
-Also available for:
-[Android](https://github.com/livekit-examples/agent-starter-android) • [Flutter](https://github.com/livekit-examples/agent-starter-flutter) • [Swift](https://github.com/livekit-examples/agent-starter-swift) • [React Native](https://github.com/livekit-examples/agent-starter-react-native)
+Helen is a real-time AI voice assistant built using Python, LiveKit, and Google Realtime AI models. It combines natural Hinglish conversation with intelligent desktop automation, allowing users to control applications, manage files, perform web searches, access live weather updates, and execute system-level tasks using voice commands.
 
-<picture>
-  <source srcset="./.github/assets/readme-hero-dark.webp" media="(prefers-color-scheme: dark)">
-  <source srcset="./.github/assets/readme-hero-light.webp" media="(prefers-color-scheme: light)">
-  <img src="./.github/assets/readme-hero-light.webp" alt="App screenshot">
-</picture>
+Inspired by futuristic assistants like Jarvis, Helen is designed to provide a seamless, cinematic, and interactive AI experience with real-time responsiveness and persistent conversational memory.
 
-### Features:
+---
 
-- Real-time voice interaction with LiveKit Agents
-- Camera video streaming support
-- Screen sharing capabilities
-- Multiple audio visualizer styles (`bar`, `grid`, `radial`, `wave`, `aura`)
-- Virtual avatar integration
-- Light/dark theme switching with system preference detection
-- Customizable branding, colors, and UI text via configuration
+# Features
 
-This template is built with Next.js and is free for you to use or modify as you see fit.
+* Real-time AI voice interaction
+* Hindi, English conversational support
+* Desktop application control
+* File and folder management
+* Keyboard and mouse automation
+* Web search integration
+* Live weather updates
+* Persistent conversation memory
+* System volume and shortcut control
+* Cinematic futuristic UI
+* Tool-based modular architecture
 
-### Project structure
+---
 
-This starter uses the [Agents UI](https://livekit.io/ui) components for core UI elements like media controls, audio visualizers, chat transcripts, and providing session data. Shadcn installs components into `components/` folder so you can customize them like any other local component.
+# Tech Stack
 
-```
-agent-starter-react/
-├── app/
-│   ├── api/
-├── components/
-│   ├── agents-ui/     - Agents UI components
-│   ├── ai-elements/   - AI Elements components
-│   ├── app/           - App-specific components
-│   ├── ui/            - Primitive shadcn/ui components
-├── fonts/
-├── hooks/
-├── lib/
-├── public/
-└── package.json
-```
+## Backend
 
-Business logic lives within the `components/app` folder. It's here where the application's state and behavior is managed and the various Shadcn UI components are composed together.
+* Python
+* LiveKit Agents
+* Google Realtime AI Model
+* AsyncIO
+* Pydantic
 
-| File                  | Description                                                                                                                                           |
-| --------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `session-view.tsx`    | Initializes the application, and LiveKit session. Renders the view controller and session UI including chat transcript, media tiles, and control bar. |
-| `view-controller.tsx` | Manages the transitions between the welcome and session views based on the LiveKit session state.                                                     |
-| `welcome-view.tsx`    | Renders the welcome UI when the LiveKit session is not connected.                                                                                     |
-| `chat-transcript.tsx` | Manages the chat transcript transitions.                                                                                                              |
-| `tile-layout.tsx`     | Manages the layout and transition of media tiles in various application states.                                                                       |
+## APIs & Integrations
 
-### Component usage
+* Google Custom Search API
+* OpenWeather API
 
-Most Agents UI components require access to a LiveKit session object for access to values like agent state or audio tracks. A Session object can be created from a [TokenSource](/reference/client-sdk-js/variables/TokenSource.html), and provided by wrapping the component in an [AgentSessionProvider](/reference/components/shadcn/component/agent-session-provider).
+## Automation Libraries
 
-See [`components/app/app.tsx`](./components/app/app.tsx) for an example of how this is done in this app.
+* PyAutoGUI
+* Pynput
+* PyGetWindow
+* PyWin32
 
-### Customizing components
+## Frontend
 
-Agents UI components, like most Shadcn compopnents, take as many primitive attributes as possible. For example, the [AgentControlBar](/reference/components/shadcn/component/agent-control-bar/page.mdoc) component extends `HTMLAttributes<HTMLDivElement>`, so you can pass any props that a div supports. This makes it easy to extend the component with your own styles or functionality.
+* React / Next.js
+* Tailwind CSS
 
-You can edit any Agents UI component's source code in the `components/agents-ui` directory. For style changes, we recommend passing in tailwind classes to override the default styles. Take a look at the source code to get a sense of how to override a component's default styles.
+---
 
-### Updating components
-
-To update the Agents UI components to the latest publication, run the following command:
+# Project Structure
 
 ```bash
-pnpm shadcn:install
+Helen-AI/
+│
+├── agent.py
+├── Helen_prompts.py
+├── Helen_google_search.py
+├── helen_get_weather.py
+├── Helen_window_CTRL.py
+├── Helen_file_opner.py
+├── keyboard_mouse_CTRL.py
+├── memory_loop.py
+├── memory_store.py
+├── requirements.txt
+├── .env
+└── frontend/
 ```
 
-> [!NOTE]
-> The CLI will ask before overwriting any modified files so you can avoid losing any customizations you might have made.
+---
 
-### Installing components
+# Installation
+
+## Clone Repository
 
 ```bash
-pnpm dlx shadcn@latest add @agents-ui/{component-name-a} @agents-ui/{component-name-b}
+git clone https://github.com/your-username/helen-ai.git
+cd helen-ai
 ```
 
-## Getting started
-
-> [!TIP]
-> If you'd like to try this application without modification, you can deploy an instance in just a few clicks with [LiveKit Cloud Sandbox](https://cloud.livekit.io/projects/p_/sandbox/templates/agent-starter-react).
-
-[![Open on LiveKit](https://img.shields.io/badge/Open%20on%20LiveKit%20Cloud-002CF2?style=for-the-badge&logo=external-link)](https://cloud.livekit.io/projects/p_/sandbox/templates/agent-starter-react)
-
-Run the following command to automatically clone this template.
+## Create Virtual Environment
 
 ```bash
-lk app create --template agent-starter-react
+python -m venv venv
 ```
 
-Then run the app with:
+## Activate Virtual Environment
+
+### Windows
+
+```bash
+.\venv\Scripts\Activate
+```
+
+### Mac/Linux
+
+```bash
+source venv/bin/activate
+```
+
+---
+
+# Install Dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+---
+
+# Environment Variables
+
+Create a `.env` file in the root directory:
+
+```env
+GOOGLE_API_KEY=your_google_api_key
+GOOGLE_SEARCH_API_KEY=your_google_search_api_key
+SEARCH_ENGINE_ID=your_search_engine_id
+OPENWEATHER_API_KEY=your_openweather_api_key
+```
+
+---
+
+# Running the Assistant
+
+```bash
+python agent.py
+```
+
+---
+
+# Frontend Setup
 
 ```bash
 pnpm install
 pnpm dev
 ```
 
-And open http://localhost:3000 in your browser.
+---
 
-You'll also need an agent to speak with. Try our starter agent for [Python](https://github.com/livekit-examples/agent-starter-python), [Node.js](https://github.com/livekit-examples/agent-starter-node), or [create your own from scratch](https://docs.livekit.io/agents/start/voice-ai/).
+# How Helen Works
 
-## Configuration
+Helen uses a modular tool-based architecture where the AI model dynamically selects tools to perform real-world tasks. The assistant can:
 
-This starter is designed to be flexible so you can adapt it to your specific agent use case. You can easily configure it to work with different types of inputs and outputs:
+* Launch or close applications
+* Open files and folders
+* Simulate keyboard and mouse actions
+* Search the web for information
+* Retrieve live weather updates
+* Maintain conversational memory for contextual responses
 
-#### Example: App configuration (`app-config.ts`)
+The system combines conversational AI with actionable desktop automation to create a real-time intelligent assistant experience.
 
-```ts
-export const APP_CONFIG_DEFAULTS: AppConfig = {
-  companyName: 'LiveKit',
-  pageTitle: 'LiveKit Voice Agent',
-  pageDescription: 'A voice agent built with LiveKit',
+---
 
-  supportsChatInput: true,
-  supportsVideoInput: true,
-  supportsScreenShare: true,
-  isPreConnectBufferEnabled: true,
+# Example Commands
 
-  logo: '/lk-logo.svg',
-  accent: '#002cf2',
-  logoDark: '/lk-logo-dark.svg',
-  accentDark: '#1fd5f9',
-  startButtonText: 'Start call',
+* “Open Chrome”
+* “Search latest AI news”
+* “What’s the weather today?”
+* “Increase volume”
+* “Open my project folder”
+* “Type hello world”
+* “Close Notepad”
 
-  // optional: audio visualization configuration
-  // audioVisualizerColor: '#002cf2',
-  // audioVisualizerColorDark: '#1fd5f9',
-  // audioVisualizerType: 'bar',
-  // audioVisualizerBarCount: 5,
-  // audioVisualizerType: 'radial',
-  // audioVisualizerRadialBarCount: 24,
-  // audioVisualizerRadialRadius: 100,
-  // audioVisualizerType: 'grid',
-  // audioVisualizerGridRowCount: 25,
-  // audioVisualizerGridColumnCount: 25,
-  // audioVisualizerType: 'wave',
-  // audioVisualizerWaveLineWidth: 3,
-  // audioVisualizerType: 'aura',
-  // audioVisualizerAuraColorShift: 0.3,
+---
 
-  // agent dispatch configuration
-  agentName: undefined,
+# Future Improvements
 
-  // LiveKit Cloud Sandbox configuration
-  sandboxId: undefined,
-};
-```
+* Local LLM support
+* Advanced task planning
+* Multi-agent architecture
+* Smart reminders and scheduling
+* OCR and screen understanding
+* Cross-platform support
+* Voice cloning
+* Emotion-aware responses
 
-You can update these values in [`app-config.ts`](./app-config.ts) to customize branding, features, and UI text for your deployment.
+---
 
-#### Audio visualizer presets
+# Screenshots
 
-Set `audioVisualizerType` in [`app-config.ts`](./app-config.ts) to switch visualizer styles:
+Add your screenshots or demo GIFs here.
 
-- `bar` (default): vertical bars with optional `audioVisualizerBarCount`
-- `grid`: dot grid with `audioVisualizerGridRowCount` and `audioVisualizerGridColumnCount`
-- `radial`: circular bars with `audioVisualizerRadialBarCount` and `audioVisualizerRadialRadius`
-- `wave`: oscilloscope-style wave with `audioVisualizerWaveLineWidth`
-- `aura`: shader-based aura with `audioVisualizerAuraColorShift`
+<img width="2381" height="1449" alt="Screenshot 2026-05-14 140144" src="https://github.com/user-attachments/assets/aacaae26-fa93-41e0-a23d-53cf57167317" />
+<img width="1566" height="1426" alt="image" src="https://github.com/user-attachments/assets/78741262-1365-4988-b8db-9f281c2e9f2e" />
 
-Use `audioVisualizerColor` to set a shared accent color across all visualizer modes.
 
-> [!NOTE]
-> The `sandboxId` is for the LiveKit Cloud Sandbox environment.
-> It is not used for local development.
+---
 
-#### Environment Variables
+# Author
 
-You'll also need to configure your LiveKit credentials in `.env.local` (copy `.env.example` if you don't have one):
-
-```env
-LIVEKIT_API_KEY=your_livekit_api_key
-LIVEKIT_API_SECRET=your_livekit_api_secret
-LIVEKIT_URL=https://your-livekit-server-url
-
-# Agent dispatch (https://docs.livekit.io/agents/server/agent-dispatch)
-# Leave AGENT_NAME blank to enable automatic dispatch
-# Provide an agent name to enable explicit dispatch
-AGENT_NAME=
-```
-
-These are required for the voice agent functionality to work with your LiveKit project.
-
-## Contributing
-
-This template is open source and we welcome contributions! Please open a PR or issue through GitHub, and don't forget to join us in the [LiveKit Community Slack](https://livekit.io/join-slack)!
-#   A I - A s s i s t a n t - H e l e n  
- 
+Built by Ekansh Singh
