@@ -185,8 +185,6 @@ The system combines conversational AI with actionable desktop automation to crea
 
 # Screenshots
 
-Add your screenshots or demo GIFs here.
-
 <img width="2381" height="1449" alt="Screenshot 2026-05-14 140144" src="https://github.com/user-attachments/assets/aacaae26-fa93-41e0-a23d-53cf57167317" />
 <img width="1566" height="1426" alt="image" src="https://github.com/user-attachments/assets/78741262-1365-4988-b8db-9f281c2e9f2e" />
 
