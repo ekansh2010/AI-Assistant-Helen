@@ -115,195 +115,23 @@ pnpm dev
 
 # 🛠️ Tech Stack
 
-# ⚙️ Installation Process
-
-## 1️⃣ Clone the Repository
-
-```bash
-git clone https://github.com/your-username/helen-ai.git
-cd helen-ai
-```
-
----
-
-## 2️⃣ Create Virtual Environment
-
-```bash
-python -m venv venv
-```
-
----
-
-## 3️⃣ Activate Virtual Environment
-
-### Windows
-
-```bash
-.\venv\Scripts\Activate
-```
-
-### Mac/Linux
-
-```bash
-source venv/bin/activate
-```
-
----
-
-## 4️⃣ Install Dependencies
-
-```bash
-pip install -r requirements.txt
-```
-
----
-
-## 5️⃣ Configure Environment Variables
-
-Create a `.env` file in the root directory:
-
-```env
-GOOGLE_API_KEY=your_google_api_key
-GOOGLE_SEARCH_API_KEY=your_google_search_api_key
-SEARCH_ENGINE_ID=your_search_engine_id
-OPENWEATHER_API_KEY=your_openweather_api_key
-```
-
----
-
-## 6️⃣ Run the AI Assistant
-
-```bash
-python agent.py
-```
-
----
-
-## 7️⃣ Run Frontend (Optional)
-
-```bash
-pnpm install
-pnpm dev
-```
-
----
-
-## Backend
-
-* Python
-* LiveKit Agents
-* Google Realtime AI Model
-* AsyncIO
-* Pydantic
-
-## APIs & Integrations
-
-* Google Custom Search API
-* OpenWeather API
-
-## Automation Libraries
-
-* PyAutoGUI
-* Pynput
-* PyGetWindow
-* PyWin32
-
-## Frontend
-
-* React / Next.js
-* Tailwind CSS
-
----
-
-# Project Structure
-
-```bash
-Helen-AI/
-│
-├── agent.py
-├── Helen_prompts.py
-├── Helen_google_search.py
-├── helen_get_weather.py
-├── Helen_window_CTRL.py
-├── Helen_file_opner.py
-├── keyboard_mouse_CTRL.py
-├── memory_loop.py
-├── memory_store.py
-├── requirements.txt
-├── .env
-└── frontend/
-```
-
----
-
-# Installation
-
-## Clone Repository
-
-```bash
-git clone https://github.com/your-username/helen-ai.git
-cd helen-ai
-```
-
-## Create Virtual Environment
-
-```bash
-python -m venv venv
-```
-
-## Activate Virtual Environment
-
-### Windows
-
-```bash
-.\venv\Scripts\Activate
-```
-
-### Mac/Linux
-
-```bash
-source venv/bin/activate
-```
-
----
-
-# Install Dependencies
-
-```bash
-pip install -r requirements.txt
-```
-
----
-
-# Environment Variables
-
-Create a `.env` file in the root directory:
-
-```env
-GOOGLE_API_KEY=your_google_api_key
-GOOGLE_SEARCH_API_KEY=your_google_search_api_key
-SEARCH_ENGINE_ID=your_search_engine_id
-OPENWEATHER_API_KEY=your_openweather_api_key
-```
-
----
-
-# Running the Assistant
-
-```bash
-python agent.py
-```
-
----
-
-# Frontend Setup
-
-```bash
-pnpm install
-pnpm dev
-```
-
----
+Backend
+Python
+LiveKit Agents
+AsyncIO
+Pydantic
+Frontend
+React / Next.js
+Tailwind CSS
+APIs & Tools
+Google Realtime AI
+Google Custom Search API
+OpenWeather API
+Automation Libraries
+PyAutoGUI
+Pynput
+PyWin32
+PyGetWindow
 
 # How Helen Works
 
