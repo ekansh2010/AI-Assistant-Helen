@@ -115,23 +115,32 @@ pnpm dev
 
 # 🛠️ Tech Stack
 
-Backend
-Python
-LiveKit Agents
-AsyncIO
-Pydantic
-Frontend
-React / Next.js
-Tailwind CSS
-APIs & Tools
-Google Realtime AI
-Google Custom Search API
-OpenWeather API
-Automation Libraries
-PyAutoGUI
-Pynput
-PyWin32
-PyGetWindow
+## Backend
+
+* Python
+* LiveKit Agents
+* AsyncIO
+* Pydantic
+
+## Frontend
+
+* React / Next.js
+* Tailwind CSS
+
+## APIs & Tools
+
+* Google Realtime AI
+* Google Custom Search API
+* OpenWeather API
+
+## Automation Libraries
+
+* PyAutoGUI
+* Pynput
+* PyWin32
+* PyGetWindow
+
+---
 
 # How Helen Works
 
