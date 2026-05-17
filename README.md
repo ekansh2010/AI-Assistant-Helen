@@ -202,15 +202,12 @@ Helen-AI/
 
 ---
 
-# 🔮 Future Improvements
+# 🔮 Screenshots
 
-* Local LLM support
-* Multi-agent collaboration
-* OCR and screen understanding
-* Emotion-aware AI responses
-* Cross-platform support
-* Vision-based AI capabilities
-* Smart reminders and scheduling
+<img width="2381" height="1449" alt="Screenshot 2026-05-14 140144" src="https://github.com/user-attachments/assets/2723cf5e-59c6-4c9c-aa15-50ea1f863ea2" />
+
+<img width="1566" height="1426" alt="Screenshot 2026-05-14 140403" src="https://github.com/user-attachments/assets/d9c2939e-51cb-43fc-981b-96e2acd1970e" />
+
 
 ---
 
