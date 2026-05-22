@@ -93,18 +93,6 @@ Voice/Text Output
 
 ---
 
-# 📸 Preview
-
-<div align="center">
-
-### Dashboard Interface
-
-*Add screenshots or GIF demonstrations here*
-
-</div>
-
----
-
 # 📂 Project Structure
 
 ```text id="6vg1z8"
