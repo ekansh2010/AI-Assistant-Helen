@@ -174,7 +174,7 @@ Try speaking to Helen with these instructions:
 
 ## 👥 Authors & Contribution
 
-- **Ekansh Singh** - Lead Developer & Creator
+- **Ekansh Singh** - Developer
 - Open source contributions and pull requests are welcome!
 
 ---
