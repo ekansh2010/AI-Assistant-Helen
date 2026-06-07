@@ -23,8 +23,9 @@ export default function SetupPage() {
     user_id: '',
     user_name: '',
     assistant_name: 'Helen', // Default Value
+    wake_word_enabled: false,
     llm_provider: 'google',
-    llm_model: 'gemini-live-2.5-flash-preview-native-audio-09-2025',
+    llm_model: 'gemini-2.0-flash-live-001',
     llm_voice: 'Puck',
     language: 'hi', // Default to Hinglish
     api_key: '',
@@ -62,6 +63,7 @@ export default function SetupPage() {
         user_id: formData.user_id, // Use explicit input
         user_name: formData.user_name,
         assistant_name: formData.assistant_name,
+        wake_word_enabled: formData.wake_word_enabled,
         llm: {
           provider: formData.llm_provider,
           model: formData.llm_model,
@@ -95,7 +97,7 @@ export default function SetupPage() {
 
       // Artificial delay for UX
       setTimeout(() => router.push('/'), 1500);
-    } catch (error) {
+    } catch {
       toastAlert({ title: 'ERROR', description: 'Initialization failed. Check inputs.' });
     } finally {
       setLoading(false);
@@ -208,6 +210,25 @@ export default function SetupPage() {
                   onChange={handleInputChange}
                   className="border-cyan-900 bg-black/50 py-6 font-sans text-lg text-cyan-300 placeholder:text-cyan-900/50 focus:border-cyan-400"
                 />
+              </div>
+
+              <div className="flex items-center space-x-3 pt-2">
+                <input
+                  type="checkbox"
+                  id="wake_word_enabled"
+                  name="wake_word_enabled"
+                  checked={formData.wake_word_enabled}
+                  onChange={(e) =>
+                    setFormData({ ...formData, wake_word_enabled: e.target.checked })
+                  }
+                  className="h-4 w-4 rounded border-cyan-900 bg-black/50 text-cyan-400 focus:ring-cyan-500"
+                />
+                <Label
+                  htmlFor="wake_word_enabled"
+                  className="cursor-pointer text-xs tracking-wider text-cyan-100 uppercase select-none"
+                >
+                  Enable Voice Wake Word
+                </Label>
               </div>
 
               <div className="grid grid-cols-1 gap-6 md:grid-cols-2">

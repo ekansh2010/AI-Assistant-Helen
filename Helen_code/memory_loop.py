@@ -5,6 +5,9 @@ import time
 import logging
 from memory_store import ConversationMemory
 from pydantic import BaseModel
+from config_manager import ConfigManager
+
+config = ConfigManager()
 
 # Configure logging
 logging.basicConfig(
@@ -14,8 +17,8 @@ logging.basicConfig(
 
 class MemoryExtractor:
     def __init__(self):
-        # last_conversation_hash is no longer needed with the new logic
-        self.saved_message_count = 0  # Tracks how many messages have been saved.
+        # Tracks how many messages have been saved
+        self.saved_message_count = 0
 
     def _serialize_for_hash(self, obj):
         """
@@ -35,21 +38,29 @@ class MemoryExtractor:
         """
         The main loop that checks for and saves new conversations.
         """
-        memory = ConversationMemory("Ekansh")
+        # Get stable user ID from config
+        user_id = config.get_user_id()
+        
+        # Get Mem0 API key from config (will be None if not set, enabling stateless mode)
+        mem0_key = config.get_mem0_key()
+        
+        # Initialize ConversationMemory with persistent user_id
+        memory = ConversationMemory(user_id=user_id, mem0_api_key=mem0_key)
+        
+        logging.info(f"MemoryExtractor started for user_id: {user_id}")
 
         while True:
             # Check for new messages every 1 second
             await asyncio.sleep(1)
 
-            # Assuming the conversation history is a list of message objects
-            # within the session object. Adjust 'session.chat_history' if needed.
+            # Get current chat history from session
             current_chat_history = session
             
-            # This is the core logic: Compare the current count with the saved count.
+            # This is the core logic: Compare the current count with the saved count
             if len(current_chat_history) > self.saved_message_count:
                 logging.info(f"{len(current_chat_history) - self.saved_message_count} new message(s) detected. Saving...")
                 
-                # Get a "slice" of the new messages that haven't been saved yet.
+                # Get a "slice" of the new messages that haven't been saved yet
                 new_messages = current_chat_history[self.saved_message_count:]
                 
                 for message in new_messages:
@@ -60,15 +71,15 @@ class MemoryExtractor:
                         "timestamp": time.time()
                     }
                     
-                    success = memory.save_conversation(conversation_wrapper)
+                    # CRITICAL FIX: await the async method and handle tuple return
+                    success, last_content = await memory.save_conversation(conversation_wrapper)
                     
                     if success:
                         logging.info(f"Saved new message with ID: {message.id}")
                     else:
                         logging.error(f"Failed to save message with ID: {message.id}")
                 
-                # After successfully saving all new messages, update the counter.
+                # After successfully saving all new messages, update the counter
                 self.saved_message_count = len(current_chat_history)
             
-            else:
-                logging.info("No new messages to save. Skipping.")
+            # No else needed - just continue the loop

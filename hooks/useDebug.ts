@@ -1,6 +1,12 @@
 import * as React from 'react';
-import { LogLevel, setLogLevel } from 'livekit-client';
+import { LogLevel, Room, setLogLevel } from 'livekit-client';
 import { useRoomContext } from '@livekit/components-react';
+
+declare global {
+  interface Window {
+    __lk_room?: Room;
+  }
+}
 
 export const useDebugMode = (options: { logLevel?: LogLevel; enabled?: boolean } = {}) => {
   const room = useRoomContext();
@@ -15,11 +21,9 @@ export const useDebugMode = (options: { logLevel?: LogLevel; enabled?: boolean }
 
     setLogLevel(logLevel ?? 'debug');
 
-    // @ts-expect-error this is a global variable
     window.__lk_room = room;
 
     return () => {
-      // @ts-expect-error this is a global variable
       window.__lk_room = undefined;
       setLogLevel('silent');
     };

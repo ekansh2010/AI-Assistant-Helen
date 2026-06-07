@@ -47,7 +47,14 @@ export const ChatEntry = ({
         </span>
       )}
 
-      <span className={cn('max-w-4/5 rounded-[20px] p-2', isUser ? 'bg-muted ml-auto' : 'mr-auto')}>
+      <span
+        className={cn(
+          'max-w-[85%] px-4 py-2.5 font-mono text-xs leading-relaxed transition-all duration-300',
+          isUser
+            ? 'ml-auto rounded-2xl rounded-tr-none border border-purple-500/20 bg-purple-950/20 text-purple-300 shadow-[0_0_10px_rgba(168,85,247,0.1)]'
+            : 'mr-auto rounded-2xl rounded-tl-none border border-cyan-500/20 bg-cyan-950/20 text-cyan-300 shadow-[0_0_10px_rgba(6,182,212,0.15)]'
+        )}
+      >
         {message}
       </span>
     </li>

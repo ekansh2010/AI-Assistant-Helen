@@ -5,6 +5,9 @@ from dotenv import load_dotenv
 from livekit.agents import function_tool  # ✅ Correct decorator
 from datetime import datetime
 from livekit import agents
+from config_manager import ConfigManager
+
+config = ConfigManager()
 
 # Load environment variables
 load_dotenv()
@@ -18,19 +21,20 @@ import requests
 import logging
 from livekit.agents import function_tool
 
+
 logger = logging.getLogger(__name__)
 
-@function_tool()
+@function_tool
 async def google_search(query: str) -> str:
     """
     Searches Google and returns the top 3 results with heading and summary only.
     No raw links are included to make speech output sound natural.
     """
 
-    logger.info(f"Query is obtained: {query}")
+    logger.info(f"Query found: {query}")
 
-    api_key = os.getenv("GOOGLE_SEARCH_API_KEY")
-    search_engine_id = os.getenv("SEARCH_ENGINE_ID")
+    api_key = config.get_api_key("google_search") or os.getenv("GOOGLE_SEARCH_API_KEY")
+    search_engine_id = config.get_api_key("search_engine_id") or os.getenv("SEARCH_ENGINE_ID")
 
     if not api_key or not search_engine_id:
         missing = []
@@ -40,6 +44,8 @@ async def google_search(query: str) -> str:
             missing.append("SEARCH_ENGINE_ID")
         return f"Missing environment variables: {', '.join(missing)}"
 
+    import asyncio
+
     url = "https://www.googleapis.com/customsearch/v1"
     params = {
         "key": api_key,
@@ -48,16 +54,19 @@ async def google_search(query: str) -> str:
         "num": 3
     }
 
+    def _fetch_sync():
+        return requests.get(url, params=params, timeout=10)
+
     try:
-        logger.info("Requesting Google Custom Search API.")
-        response = requests.get(url, params=params, timeout=10)
-    except requests.exceptions.RequestException as e:
+        logger.info("Requesting Google Custom Search API (non-blocking) ...")
+        response = await asyncio.to_thread(_fetch_sync)
+    except Exception as e:
         logger.error(f"Request failed: {e}")
         return f"Google Search API request failed: {e}"
 
     if response.status_code != 200:
         logger.error(f"Google API error: {response.status_code} - {response.text}")
-        return f"There is an error with the Google Search API : {response.status_code} - {response.text}"
+        return f"Google Search API error: {response.status_code} - {response.text}"
 
     data = response.json()
     results = data.get("items", [])
@@ -76,18 +85,27 @@ async def google_search(query: str) -> str:
     return formatted.strip()
 
 
-@function_tool()
+@function_tool
 async def get_current_datetime() -> str:
     """
     Returns the current date and time in a human-readable format.
 
     Use this tool when the user asks for the current time, date, or wants to know what day it is.
     Example prompts:
-    - "अब क्या time हो रहा है?"
-    - "आज की तारीख क्या है?"
+    - "What's the date today?"
     - "What’s the time right now?"
     """
+    from zoneinfo import ZoneInfo
+    from location_helper import get_location_data
 
-    now = datetime.now()
+    tz_str = get_location_data()["timezone"]
+    try:
+        tz = ZoneInfo(tz_str)
+        now = datetime.now(tz)
+        logger.info(f"Using location timezone for time query: {tz_str}")
+    except Exception as e:
+        logger.error(f"Error applying timezone {tz_str}, using local system time: {e}")
+        now = datetime.now()
+
     formatted = now.strftime("%d %B %Y, %I:%M %p")  # Example: 31 July 2025, 04:22 PM
     return formatted

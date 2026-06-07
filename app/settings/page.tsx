@@ -24,8 +24,9 @@ export default function SettingsPage() {
     user_id: '', // Internal ID (Hidden)
     user_name: '',
     assistant_name: 'Helen',
+    wake_word_enabled: false,
     llm_provider: 'google',
-    llm_model: 'gemini-2.5-flash-native-audio-preview-09-2025',
+    llm_model: 'gemini-2.0-flash-live-001',
     llm_voice: 'Puck',
     language: 'hi', // default to Hinglish
     api_key: '',
@@ -48,8 +49,9 @@ export default function SettingsPage() {
             user_id: data.user_id || '', // Preserve existing ID
             user_name: data.user_name || '',
             assistant_name: data.assistant_name || 'Helen',
+            wake_word_enabled: data.wake_word_enabled ?? false,
             llm_provider: data.llm?.provider || 'google',
-            llm_model: data.llm?.model || 'gemini-2.5-flash-native-audio-preview-09-2025',
+            llm_model: data.llm?.model || 'gemini-2.0-flash-live-001',
             llm_voice: data.llm?.voice || 'Puck',
             language: data.language || 'hi',
             api_key: data.api_keys?.[data.llm?.provider || 'google'] || '',
@@ -103,6 +105,7 @@ export default function SettingsPage() {
         user_id: formData.user_id,
         user_name: formData.user_name,
         assistant_name: formData.assistant_name,
+        wake_word_enabled: formData.wake_word_enabled,
         llm: {
           provider: formData.llm_provider,
           model: formData.llm_model,
@@ -245,6 +248,25 @@ export default function SettingsPage() {
                   onChange={handleInputChange}
                   className="border-cyan-900 bg-black/40 text-cyan-300 transition-all placeholder:text-cyan-900 focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400"
                 />
+              </div>
+
+              <div className="flex items-center space-x-3 pt-2">
+                <input
+                  type="checkbox"
+                  id="wake_word_enabled"
+                  name="wake_word_enabled"
+                  checked={formData.wake_word_enabled}
+                  onChange={(e) =>
+                    setFormData({ ...formData, wake_word_enabled: e.target.checked })
+                  }
+                  className="h-4 w-4 rounded border-cyan-900 bg-black/50 text-cyan-400 focus:ring-cyan-500"
+                />
+                <Label
+                  htmlFor="wake_word_enabled"
+                  className="cursor-pointer text-xs tracking-wider text-cyan-100 uppercase select-none"
+                >
+                  Enable Voice Wake Word
+                </Label>
               </div>
             </div>
           </div>
@@ -546,7 +568,7 @@ export default function SettingsPage() {
                       } else {
                         throw new Error('Reset failed');
                       }
-                    } catch (e) {
+                    } catch {
                       toastAlert({ title: 'ERROR', description: 'Purge sequence failed.' });
                     }
                   }

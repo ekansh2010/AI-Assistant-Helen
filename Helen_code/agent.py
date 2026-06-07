@@ -25,11 +25,12 @@ load_dotenv()
 
 
 class Assistant(Agent):
-    def __init__(self, chat_ctx, llm_instance, instructions_text) -> None:
+    def __init__(self, chat_ctx, llm_instance, instructions_text, tools=None) -> None:
         super().__init__(
             instructions=instructions_text,
             chat_ctx=chat_ctx,
-            llm=llm_instance
+            llm=llm_instance,
+            tools=tools
         )
 
 
@@ -52,11 +53,21 @@ async def entrypoint(ctx: agents.JobContext):
         if mem0_key:
             mem0_client = AsyncMemoryClient(api_key=mem0_key)
             
-            # Get all memories - returns a LIST directly, not a dict!
-            all_memories = await mem0_client.get_all(user_id=user_id)
+            # Get all memories
+            all_memories = await mem0_client.get_all(filters={"user_id": user_id})
             
-            # Format them into a string - iterate directly over the list
-            memory_str = "\n".join([m.get('memory', '') or m.get('text', '') for m in all_memories])
+            # Format them into a string - handle both string and dict formats safely
+            formatted_list = []
+            for m in all_memories:
+                if isinstance(m, str):
+                    formatted_list.append(m)
+                elif isinstance(m, dict):
+                    val = m.get('memory', '') or m.get('text', '')
+                    if val:
+                        formatted_list.append(val)
+                else:
+                    formatted_list.append(str(m))
+            memory_str = "\n".join(formatted_list)
             
             if memory_str:
                 memory_str = f"\n\nKNOWN USER HISTORY:\n{memory_str}"
@@ -115,7 +126,7 @@ async def entrypoint(ctx: agents.JobContext):
         llm_instance = google.beta.realtime.RealtimeModel(
             model="gemini-2.5-flash-native-audio-preview-09-2025",
             api_key=google_api_key,
-            voice="Puck"
+            voice="Kore"
         )
     
     # Configure the Session
@@ -134,9 +145,20 @@ async def entrypoint(ctx: agents.JobContext):
     )
     
     # Start the session
+    from helen_get_whether import get_weather
+    from Helen_google_search import google_search, get_current_datetime
+    from Helen_file_opner import Play_file
+
+    agent_tools = [get_weather, google_search, get_current_datetime, Play_file]
+
     await session.start(
         room=ctx.room,
-        agent=Assistant(chat_ctx=initial_ctx, llm_instance=llm_instance, instructions_text=instructions_prompt),
+        agent=Assistant(
+            chat_ctx=initial_ctx, 
+            llm_instance=llm_instance, 
+            instructions_text=instructions_prompt,
+            tools=agent_tools
+        ),
         room_input_options=RoomInputOptions(
             noise_cancellation=noise_cancellation.BVC()
         ),

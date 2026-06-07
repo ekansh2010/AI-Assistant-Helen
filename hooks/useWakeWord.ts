@@ -1,29 +1,20 @@
 import { useEffect, useRef, useState } from 'react';
 
-// Declare SpeechRecognition types
+// TypeScript support for SpeechRecognition
 declare global {
   interface Window {
-    SpeechRecognition: unknown;
-    webkitSpeechRecognition: unknown;
+    SpeechRecognition: any;
+    webkitSpeechRecognition: any;
   }
 }
 
-interface SpeechRecognitionEvent extends Event {
-  resultIndex: number;
-  results: SpeechRecognitionResultList;
-}
-
-interface SpeechRecognitionErrorEvent extends Event {
-  error: string;
-}
-
-export function useWakeWord(accessKey: string | undefined, enabled: boolean) {
+export function useWakeWord(_accessKey: string | undefined, enabled: boolean) {
   const [keywordDetection, setKeywordDetection] = useState<string | null>(null);
   const [isLoaded, setIsLoaded] = useState(false);
   const [isListening, setIsListening] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const recognitionRef = useRef<unknown>(null);
+  const recognitionRef = useRef<any>(null);
 
   useEffect(() => {
     // Initialize Web Speech API
@@ -34,7 +25,8 @@ export function useWakeWord(accessKey: string | undefined, enabled: boolean) {
       return;
     }
 
-    const recognition = new SpeechRecognition{};
+    const recognition = new SpeechRecognition();
+
     recognition.continuous = true;
     recognition.interimResults = true; // Listen for partial results for speed
     recognition.lang = 'en-US';
@@ -42,46 +34,50 @@ export function useWakeWord(accessKey: string | undefined, enabled: boolean) {
     recognition.onstart = () => {
       setIsListening(true);
       setIsLoaded(true);
+      console.log('Speech recognition started');
     };
 
-    recognition.onresult = (event: SpeechRecognitionEvent) => {
+    recognition.onresult = (event: any) => {
       const current = event.resultIndex;
-      const transcript = event.results[current][0].transcript.toLowerCase().trim();
-      console.log('HEARD:', transcript); // <--- Added this line
 
-      // Check if the transcript contains the wake word "helen"
+      const transcript = event.results[current][0].transcript.toLowerCase().trim();
+
+      console.log('HEARD:', transcript);
+
+      // Check if the transcript contains the wake word "jarvis"
       if (transcript.includes('helen')) {
+        // eslint-disable-next-line prettier/prettier
         console.log('WAKE WORD DETECTED IN TRANSCRIPT:', transcript);
+
         setKeywordDetection('Helen');
 
         // Reset it so it can trigger again later
-        setTimeout(() => setKeywordDetection(null), 1000);
+        setTimeout(() => {
+          setKeywordDetection(null);
+        }, 1000);
       }
     };
 
-    recognition.onerror = (event: SpeechRecognitionErrorEvent) => {
+    recognition.onerror = (event: any) => {
       if (event.error === 'not-allowed') {
         console.warn('Speech Recognition Error: Microphone access denied by browser.');
+
         setError(
           'Microphone permission blocked. Please check your browser settings and allow microphone access for the Wake Word to function.'
         );
       } else if (event.error !== 'no-speech' && event.error !== 'aborted') {
         console.error('Speech Recognition Error:', event.error);
+
         setError(`Speech recognition error: ${event.error}`);
       }
     };
 
     recognition.onend = () => {
-      // Auto-restart listening if it stops but it's supposed to be enabled,
-      // EXCEPT if it was stopped due to a permissions error (to prevent an infinite loop of popups)
-      if (
-        enabled &&
-        error !==
-          'Microphone permission blocked. Please check your browser settings and allow microphone access for the Wake Word to function.'
-      ) {
+      // Auto-restart listening if enabled
+      if (enabled) {
         try {
           recognition.start();
-        } catch {
+        } catch (e) {
           setIsListening(false);
         }
       } else {
@@ -96,7 +92,7 @@ export function useWakeWord(accessKey: string | undefined, enabled: boolean) {
         recognitionRef.current.stop();
       }
     };
-  }, [enabled, error]);
+  }, [enabled]);
 
   // Start/Stop based on enabled state
   useEffect(() => {

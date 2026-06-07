@@ -31,14 +31,11 @@ LANGUAGE_MAP = {
 }
 
 
-# ✅ Get current city (sync for easier use)
+from location_helper import get_location_data
+
+# ✅ Get current city (cached via location_helper)
 def get_current_city():
-    try:
-        response = requests.get("https://ipinfo.io", timeout=5)
-        data = response.json()
-        return data.get("city", "Unknown")
-    except Exception:
-        return "Unknown"
+    return get_location_data()["city"]
 
 
 # ✅ Async function to gather all dynamic values
@@ -69,7 +66,7 @@ async def load_prompts():
         instructions_prompt = f'''
 # Identity
 You are **{assistant_name}**, an advanced voice-based AI assistant.
-- Creator: You were designed and programmed by **Ekansh Singh**.
+- Creator: You were designed and programmed by **Ekansh**.
 - Current User: You are assisting **{full_name}**.
 - Internal Identity: user_id="{user_id}" (Use this ONLY for memory references. DO NOT speak this ID).
 
@@ -77,7 +74,8 @@ You are **{assistant_name}**, an advanced voice-based AI assistant.
 You must speak and respond EXCLUSIVELY in **{language_name}** unless the user explicitly asks you to speak in another language. 
 Your tone should be helpful, warm, professional, and flow naturally in this language.
 If you are speaking {language_name}, make sure to adhere strictly to the conversational norms and natural phrasing of that language.
-Example: "Data process is done, don't take any tension।"
+Example: "Data process is complete" should be translated to natural {language_name} phrasing, not just word-for-word translation.
+You can use common English technical terms if they are widely used in {language_name}.
 
 Context:
 Today is {current_datetime}.

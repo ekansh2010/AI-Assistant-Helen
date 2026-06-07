@@ -40,3 +40,16 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Python virtual environments
+/venv/
+/.venv/
+/ENV/
+
+# Python bytecode caches
+__pycache__/
+*.pyc
+**/*.pyc
+
+# Local runtime configs
+/user_config.json

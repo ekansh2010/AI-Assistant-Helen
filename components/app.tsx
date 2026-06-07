@@ -85,14 +85,49 @@ export function App({ appConfig }: AppProps) {
   const { startButtonText } = appConfig;
   const router = useRouter();
 
-  // Fetch Assistant Name for Button
+  // Fetch Assistant Name and Language for Dashboard
   const [assistantButtonText, setAssistantButtonText] = useState(startButtonText);
+  const [wakeWordEnabled, setWakeWordEnabled] = useState(false);
+  const [selectedLanguageName, setSelectedLanguageName] = useState('English');
+
+  const LANGUAGE_MAP: Record<string, string> = {
+    hi: 'Hinglish',
+    bn: 'Bengali',
+    ta: 'Tamil',
+    te: 'Telugu',
+    ml: 'Malayalam',
+    pa: 'Punjabi',
+    mr: 'Marathi',
+    gu: 'Gujarati',
+    kn: 'Kannada',
+    ur: 'Urdu',
+    as: 'Assamese',
+    en: 'English',
+    ja: 'Japanese',
+    es: 'Spanish',
+    de: 'German',
+    zh: 'Chinese',
+    ko: 'Korean',
+    fr: 'French',
+    ru: 'Russian',
+    ar: 'Arabic',
+  };
+
   useEffect(() => {
     fetch('/api/config')
       .then((res) => res.json())
       .then((data) => {
-        if (data.exists && data.assistant_name) {
-          setAssistantButtonText(`TALK TO ${data.assistant_name.toUpperCase()}`);
+        if (data.exists) {
+          if (data.assistant_name) {
+            setAssistantButtonText(`TALK TO ${data.assistant_name.toUpperCase()}`);
+          }
+          if (data.wake_word_enabled !== undefined) {
+            setWakeWordEnabled(data.wake_word_enabled);
+          }
+          if (data.language) {
+            const langName = LANGUAGE_MAP[data.language] || 'English';
+            setSelectedLanguageName(langName);
+          }
         }
       })
       .catch((err) => console.error('Failed to fetch config for button name:', err));
@@ -114,6 +149,7 @@ export function App({ appConfig }: AppProps) {
           .replace('TALK TO ', '')
           .toLowerCase()
           .replace(/^\w/, (c) => c.toUpperCase())}
+        languageName={selectedLanguageName}
         onStartCall={() => setSessionStarted(true)}
         disabled={sessionStarted}
         initial={{ opacity: 1 }}
@@ -132,8 +168,10 @@ export function App({ appConfig }: AppProps) {
             .replace('TALK TO ', '')
             .toLowerCase()
             .replace(/^\w/, (c) => c.toUpperCase())} // Propagate name
+          languageName={selectedLanguageName}
           disabled={!sessionStarted}
           sessionStarted={sessionStarted}
+          wakeWordEnabled={wakeWordEnabled}
           initial={{ opacity: 0 }}
           animate={{ opacity: sessionStarted ? 1 : 0 }}
           transition={{

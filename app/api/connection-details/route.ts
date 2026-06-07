@@ -16,8 +16,8 @@ export type ConnectionDetails = {
 
 function getConfig() {
   const pathsToTry = [
-    path.join(process.cwd(), '..', 'user_config.json'), // Dev mode: unlikely if cwd is incorrect
-    path.join(process.cwd(), 'user_config.json'), // If cwd is root
+    path.join(process.cwd(), 'user_config.json'), // Project root (correct)
+    path.join(process.cwd(), '..', 'user_config.json'), // One level up (fallback)
     path.join(__dirname, '../../../../user_config.json'), // Relative to compiled output (fragile)
     'c:\\Users\\ekans\\code\\AI Assistant Helen\\user_config.json', // Fail-safe fallback (User specific)
   ];

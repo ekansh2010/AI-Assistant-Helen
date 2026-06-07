@@ -208,22 +208,6 @@
   }
 }
 
-.text-fg1 {
-  color: rgb(255, 255, 255);
-}
-
-.bg-muted {
-  background-color: #0070f3;
-}
-
-.gap-0\.5 {
-  color: white;
-}
-
-.flex-1 {
-  color: white;
-}
-
 @layer utils {
   .animate-text-shimmer {
     animation-delay: 0.5s;
@@ -262,7 +246,36 @@
   }
 }
 
-.text-center {
-  text-align: center;
-  color: blue;
+/* Futuristic Sci-fi HUD and Visual Styles */
+.cyber-grid {
+  background-size: 50px 50px;
+  background-image:
+    linear-gradient(to right, rgba(6, 182, 212, 0.03) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(6, 182, 212, 0.03) 1px, transparent 1px);
+}
+.cyber-grid-animate {
+  animation: grid-move 30s linear infinite;
+}
+@keyframes grid-move {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 50px 50px;
+  }
+}
+.scanline {
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0),
+    rgba(255, 255, 255, 0) 50%,
+    rgba(6, 182, 212, 0.03) 50%,
+    rgba(6, 182, 212, 0.03)
+  );
+  background-size: 100% 4px;
+}
+.hud-glowing-glow {
+  box-shadow:
+    0 0 30px rgba(6, 182, 212, 0.1),
+    inset 0 0 15px rgba(6, 182, 212, 0.05);
 }

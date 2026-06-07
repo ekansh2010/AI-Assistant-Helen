@@ -5,7 +5,7 @@ from typing import Dict, Any, Optional
 
 # Constants
 CONFIG_FILE_NAME = "user_config.json"
-# Config file is located one level up from this file (in root of Jarvis)
+# Config file is located one level up from this file (in root of Helen_code)
 CONFIG_FILE_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", CONFIG_FILE_NAME))
 
 logger = logging.getLogger("config_manager")
@@ -65,7 +65,7 @@ class ConfigManager:
         """
         if "user_id" not in self._config:
             # Fallback: Use current user_name as base for ID, or generate one
-            # Using user_name ensures backward compat (memories attached to "Gaurav" stay with "Gaurav")
+            # Using user_name ensures backward compat (memories attached to "Ekansh" stay with "Ekansh")
             current_name = self.get("user_name", "primary_user")
             # Sanitize to be a clean ID (optional, but keeping it same as name for backward compat is safer for Mem0)
             self._config["user_id"] = current_name
@@ -99,7 +99,7 @@ class ConfigManager:
         
     def get_assistant_name(self) -> str:
         """Helper to get assistant name"""
-        return self.get("assistant_name", "Jarvis")
+        return self.get("assistant_name", "Helen")
         
     def get_language(self) -> str:
         """Helper to get the configured language code"""
